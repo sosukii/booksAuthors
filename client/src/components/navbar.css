@@ -1,0 +1,20 @@
+.toRightNAV{
+    margin: auto;
+}
+.addColorNav{
+    background-color: #3a3a3b;
+}
+.mainBar {
+    background-color: #3a3a3b;
+    opacity: 90%;
+}
+.nav-link {
+    color: #d3d3db;
+    font-size: 12px;
+}
+a.nav-link {
+    letter-spacing: 0.5px;
+}
+a.nav-link:hover {
+    color: white;
+}

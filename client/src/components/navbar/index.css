@@ -1,0 +1,38 @@
+.toRightNAV{
+margin: auto;
+}
+.addColorNav{
+    background-color: #5bd591;
+}
+.nav-link {
+    color: ivory !important;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+a.nav-link {
+    letter-spacing: 0.5px;
+}
+a.nav-link:hover {
+    color: white;
+}
+.menuLogo{
+    margin-left: 15px;
+    width: 35px;
+    height: 35px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.textMenuNav{
+    margin-left: 15px;
+    font-weight:bold;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.menuBlock{
+    background-color: aquamarine;
+}
+.header{
+    display: flex;
+    flex-wrap: wrap;
+}
