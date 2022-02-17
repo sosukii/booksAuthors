@@ -63,9 +63,9 @@ const schema = buildSchema(`
     type Query {
         getAllUsers: [User]
         getUser(id: ID): User
-        getAllAuthors(itemPerPage: Int, offset: Int): [Author]
+        getAllAuthors(itemPerPage: Int, offset: Int, limitValue: Int, shouldReset: Boolean): [Author]
         getAuthor(currentID: String): Author
-        getAllBooks(itemPerPage: Int, offset: Int): [Book]
+        getAllBooks(itemPerPage: Int, offset: Int, limitValue: Int, shouldReset: Boolean): [Book]
         getBook(currentID: String): Book
     }
    

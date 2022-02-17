@@ -332,7 +332,8 @@ const root = {
         return userInstance.save()
     },
 
-    getAllAuthors: async () => {
+    getAllAuthors: async ({limitValue, shouldReset}) => {
+        console.log(shouldReset)
         // await dbPOUCH.createIndex({
         //     index: {fields: ['type', 'author', 'name', 'book', 'title']}
         // })
@@ -367,27 +368,32 @@ const root = {
         //     if(row.doc.name) resultArr.push(row.doc)
         // })
         // return resultArr
-        console.log('request has worked!')
+        //console.log('request has worked!')
+        if(limitValue !== undefined) optionsAuthor.limit = limitValue
+        if(shouldReset) options.skip = 0
         const dataFromServer = await dbPOUCH.find(optionsAuthor)
-        console.log('data grom server: ', dataFromServer)
-        if(dataFromServer.docs && dataFromServer.docs.length > 0){
-            optionsAuthor.skip = optionsAuthor.skip + 50
-            console.log(optionsAuthor)
-        }
 
-        console.log(dataFromServer.docs)
+        if(dataFromServer.docs && dataFromServer.docs.length > 0){
+            limitValue
+                ? optionsAuthor.skip = optionsAuthor.skip + limitValue
+                : optionsAuthor.skip = optionsAuthor.skip + 50
+        }
         return dataFromServer.docs
     },
-    getAllBooks: async() => {
-        console.log('request has worked!')
-        const dataFromServer = await dbPOUCH.find(options)
-        console.log('data grom server: ', dataFromServer)
-        if(dataFromServer.docs && dataFromServer.docs.length > 0){
-            options.skip = options.skip + 50 // +limit
-            console.log(options)
+    getAllBooks: async({limitValue, shouldReset}) => {
+        if(limitValue !== undefined) options.limit = limitValue
+        if(shouldReset){
+            options.skip = 0
+            // const dataFromServer = await dbPOUCH.find(options)
+            // console.log(dataFromServer.docs)
         }
 
-        console.log(dataFromServer.docs)
+        const dataFromServer = await dbPOUCH.find(options)
+        if(dataFromServer.docs && dataFromServer.docs.length > 0){
+            limitValue
+                ? options.skip = options.skip + limitValue
+                : options.skip = options.skip + 50
+        }
         return dataFromServer.docs
     }
 }
