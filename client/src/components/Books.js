@@ -6,8 +6,15 @@ import './books.css'
 function Books() {
     const [bookRequestedID, setBookRequestedID] = useState(null)
     const [books, setBooks] = useState([])
+    const [limit, setLimit] = useState(4)
+    const [shouldResetValue, setShouldResetValue] = useState(false)
 
-    const {data:booksData, loading:booksLoading, refetch:booksRefetch, fetchMore:booksFetchMore} = useQuery(GET_ALL_BOOKS)
+    const {data:booksData, loading:booksLoading, refetch:booksRefetch, fetchMore:booksFetchMore} = useQuery(GET_ALL_BOOKS, {
+        variables: {
+            limitValue: limit,
+            shouldReset: shouldResetValue
+        }
+    })
     const {data:bookData, loading:bookLoading, refetch:bookRefetch} = useQuery(GET_ONE_BOOK, {
         variables:{
             currentId: bookRequestedID
@@ -15,14 +22,16 @@ function Books() {
     })
 
     useEffect( () => {
-        if(!booksLoading){
+        if(!booksLoading && !shouldResetValue){
             console.log('data from server: ', booksData.getAllBooks)
             setBooks(booksData.getAllBooks)
         }
     }, [booksData])
 
-    const getAllBooks = () => {
-        booksRefetch()
+    const getAllBooks = async () => {
+        console.log('refetching!')
+        await booksRefetch()
+        setShouldResetValue(false)
         console.log(books)
     }
     const getMoreContent = async () =>{
@@ -52,12 +61,26 @@ function Books() {
         return <h1>Loading books...</h1>
     }
 
+    const inputHandler = (e) => {
+        setLimit(Number(e.target.value))
+        console.log('was entered: ', e.target.value)
+    }
+    const approve = () => {
+        setShouldResetValue(true)
+    }
     return (
         <div>
             <h1 className="main-title">Books catalog</h1>
-            <button onClick={() => console.log(books)}>log books</button>
-            <button onClick={() => getMoreContent()}>load more...</button>
-            <button title="fckng refresh list and get new books" onClick={(e) => getAllBooks(e)} className="btn btn-success">fckng refresh</button>
+            <button onClick={() => console.log(books, limit, typeof  limit, shouldResetValue)}>log books</button>
+
+            <div className="countItemPerPageByUser">
+            <p>how much books per page should be (current value: {limit} books per page): </p>
+            <p>1. press approve button, 2. enter you're number, 3. press refresh button</p>
+            <button onClick={() => approve()}>approve</button>
+            <input type="number" onInput={(e) => inputHandler(e)}/>
+            <button title="refresh list and get new books" onClick={(e) => getAllBooks(e)} className="btn btn-success">refresh</button>
+            </div>
+
             <section className="section">
                 <div className="container">
                     <div className="section-header">
@@ -80,6 +103,9 @@ function Books() {
                             }
 
                         )}
+                    </div>
+                    <div className="btn-loadMore">
+                        <button className="btn btn-success" onClick={() => getMoreContent()}>load more...</button>
                     </div>
                 </div>
             </section>

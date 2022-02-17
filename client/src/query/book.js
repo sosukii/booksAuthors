@@ -1,8 +1,8 @@
 import {gql} from '@apollo/client'
 
 export const GET_ALL_BOOKS = gql(`
-    query getAllBooks($itemPerPage: Int, $offset: Int) {
-        getAllBooks(itemPerPage: $itemPerPage, offset: $offset) {
+    query getAllBooks($itemPerPage: Int, $offset: Int, $limitValue: Int, $shouldReset: Boolean) {
+        getAllBooks(itemPerPage: $itemPerPage, offset: $offset, limitValue: $limitValue, shouldReset: $shouldReset) {
             currentID, title, author{currentID, name}
         }
     }
