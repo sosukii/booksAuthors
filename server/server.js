@@ -8,6 +8,7 @@ const c = require('config')
 
 const PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'))
+
 const dbPOUCH = new PouchDB(`http://${c.get('couchLogIn')}:${c.get('couchPassword')}@localhost:5984/db_proj`)
 const dbPOUCHtest = new PouchDB('http://localhost:5984/creatableByServer')
 
@@ -299,7 +300,16 @@ const createUser = input => {
     }
 }
 
-let options = {include_docs : true, limit: 50}
+let options = {
+    selector: {type: 'Book'},
+    limit: 50,
+    skip: 0
+}
+let optionsAuthor = {
+    selector: {type: 'Author'},
+    limit: 50,
+    skip: 0
+}
 
 const root = {
     getAllUsers: async () => { // здесь вытаскивание всех юзеров из бд
@@ -345,34 +355,40 @@ const root = {
         // })
         // console.log('docs count: ' ,data.docs.length)
         // return data.docs
-        const result = await dbPOUCH.allDocs(options, (err, res) => {
-            console.log(res)
-            if(res && res.rows.length > 0){
-                options.startkey = res.rows[res.rows.length - 1].id
-                options.skip = 1
-            }
-        })
-        let resultArr = []
-        result.rows.forEach(row => {
-            if(row.doc.name) resultArr.push(row.doc)
-        })
-        return resultArr
+        // const result = await dbPOUCH.allDocs(options, (err, res) => {
+        //     console.log(res)
+        //     if(res && res.rows.length > 0){
+        //         options.startkey = res.rows[res.rows.length - 1].id
+        //         options.skip = 1
+        //     }
+        // })
+        // let resultArr = []
+        // result.rows.forEach(row => {
+        //     if(row.doc.name) resultArr.push(row.doc)
+        // })
+        // return resultArr
+        console.log('request has worked!')
+        const dataFromServer = await dbPOUCH.find(optionsAuthor)
+        console.log('data grom server: ', dataFromServer)
+        if(dataFromServer.docs && dataFromServer.docs.length > 0){
+            optionsAuthor.skip = optionsAuthor.skip + 50
+            console.log(optionsAuthor)
+        }
+
+        console.log(dataFromServer.docs)
+        return dataFromServer.docs
     },
     getAllBooks: async() => {
-        const result = await dbPOUCH.allDocs(options, (err, res) => {
-            console.log(res)
-            if(res && res.rows.length > 0){
-                options.startkey = res.rows[res.rows.length - 1].id
-                options.skip = 1
-            }
-        })
-        let resultArr = []
-        result.rows.forEach(row => {
-            if(row.doc.title){
-                resultArr.push(row.doc)
-            }
-        })
-        return resultArr
+        console.log('request has worked!')
+        const dataFromServer = await dbPOUCH.find(options)
+        console.log('data grom server: ', dataFromServer)
+        if(dataFromServer.docs && dataFromServer.docs.length > 0){
+            options.skip = options.skip + 50 // +limit
+            console.log(options)
+        }
+
+        console.log(dataFromServer.docs)
+        return dataFromServer.docs
     }
 }
 app.use('/graphql', graphqlHTTP({
