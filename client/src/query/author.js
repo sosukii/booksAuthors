@@ -9,9 +9,9 @@ export const GET_ALL_AUTHORS = gql(`
 `)
 
 export const GET_ONE_AUTHOR = gql(`
-    query getAuthor($currentID: String) {
-        getAuthor(currentID: $currentID) {
-            currentID, name, books
+    query getAuthor($id: ID) {
+        getAuthor(id: $id) {
+            currentID, name, books{currentID, title}
         }
     }
 `)
