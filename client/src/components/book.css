@@ -1,0 +1,14 @@
+.main-title-book{
+    text-align: center;
+    margin-top: 25px;
+}
+.block-find-book{
+    text-align: center;
+}
+.title-input-findBookById{
+    font-size: 24px;
+}
+.btn-findBook{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}

@@ -95,7 +95,7 @@ function Books() {
                                             <p title="title of the book" className="title-book">{book.title}</p>
                                             <img className="some-image" src="https://www.meme-arsenal.com/memes/a2be492e6101f6a9d745be2b731c9305.jpg" alt="example portrait of book author (it is not a real author of this book. Person at photo - Alan Rickman, an English actor)"/>
                                             <p className="author-name" title="name of author who write this book">{book.author.name}</p>
-                                        <p title="description of the book" className="book-description">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
+                                            <p title="description of the book" className="book-description">"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
                                         </div>
                                     )
 

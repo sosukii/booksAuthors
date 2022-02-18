@@ -64,9 +64,9 @@ const schema = buildSchema(`
         getAllUsers: [User]
         getUser(id: ID): User
         getAllAuthors(itemPerPage: Int, offset: Int, limitValue: Int, shouldReset: Boolean): [Author]
-        getAuthor(currentID: String): Author
+        getAuthor(id: ID): Author
         getAllBooks(itemPerPage: Int, offset: Int, limitValue: Int, shouldReset: Boolean): [Book]
-        getBook(currentID: String): Book
+        getBook(id: ID): Book
     }
    
    type Mutation {

@@ -1,0 +1,28 @@
+.main-title-author{
+    text-align: center;
+margin-top: 25px;
+}
+.title-input-findAuthorById{
+    font-size: 24px;
+}
+
+.btn-findAuthor{
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.block-find-author{
+    text-align: center;
+
+}
+.input-findById{
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.product{
+    margin-left: auto;
+    margin-right: auto;
+}

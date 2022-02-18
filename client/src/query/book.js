@@ -9,9 +9,9 @@ export const GET_ALL_BOOKS = gql(`
 `) // в видосе нет скобочек
 
 export const GET_ONE_BOOK = gql(`
-    query getBook($currentID: String) {
-        getBook(currentID: $currentID) {
-            currentID, title, author
+    query getBook($id: ID) {
+        getBook(id: $id) {
+            currentID, title, author{currentID, name}
         }
     }
 `) // в видосе нет скобочек

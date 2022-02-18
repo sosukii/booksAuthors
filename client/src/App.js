@@ -15,6 +15,8 @@ import Authors from './components/Authors'
 import Books from "./components/Books";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
+import Book from "./components/Book";
+import Author from "./components/Author";
 
 function App() {
 
@@ -24,11 +26,12 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" exact element={<Home/>} />
-          <Route path="/authors" element={<Authors/>} />
-          <Route path="/books" element={<Books/>} />
+            <Route path="/" exact element={<Home/>} />
+            <Route path="/authors" element={<Authors/>} />
+            <Route path="/books" element={<Books/>} />
+            <Route path="/bookById" element={<Book />} />
+            <Route path="/authorById" element={<Author />} />
         </Routes>
-        {/*<Authors />*/}
 
       </Router>
   );

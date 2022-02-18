@@ -300,7 +300,7 @@ const createUser = input => {
     }
 }
 
-let options = {
+let optionsBooks = {
     selector: {type: 'Book'},
     limit: 50,
     skip: 0
@@ -333,7 +333,6 @@ const root = {
     },
 
     getAllAuthors: async ({limitValue, shouldReset}) => {
-        console.log(shouldReset)
         // await dbPOUCH.createIndex({
         //     index: {fields: ['type', 'author', 'name', 'book', 'title']}
         // })
@@ -370,7 +369,7 @@ const root = {
         // return resultArr
         //console.log('request has worked!')
         if(limitValue !== undefined) optionsAuthor.limit = limitValue
-        if(shouldReset) options.skip = 0
+        if(shouldReset) optionsAuthor.skip = 0
         const dataFromServer = await dbPOUCH.find(optionsAuthor)
 
         if(dataFromServer.docs && dataFromServer.docs.length > 0){
@@ -381,20 +380,24 @@ const root = {
         return dataFromServer.docs
     },
     getAllBooks: async({limitValue, shouldReset}) => {
-        if(limitValue !== undefined) options.limit = limitValue
-        if(shouldReset){
-            options.skip = 0
-            // const dataFromServer = await dbPOUCH.find(options)
-            // console.log(dataFromServer.docs)
-        }
+        if(limitValue !== undefined) optionsBooks.limit = limitValue
+        if(shouldReset) optionsBooks.skip = 0
 
-        const dataFromServer = await dbPOUCH.find(options)
+        const dataFromServer = await dbPOUCH.find(optionsBooks)
         if(dataFromServer.docs && dataFromServer.docs.length > 0){
             limitValue
-                ? options.skip = options.skip + limitValue
-                : options.skip = options.skip + 50
+                ? optionsBooks.skip = optionsBooks.skip + limitValue
+                : optionsBooks.skip = optionsBooks.skip + 50
         }
         return dataFromServer.docs
+    },
+    getBook: async( {id} ) => {
+        const result = await dbPOUCH.find({selector: {type: 'Book', _id:id}})
+        return result.docs[0]
+    },
+    getAuthor: async( {id} ) => {
+        const result = await dbPOUCH.find({selector: {type: 'Author', _id:id}})
+        return result.docs[0]
     }
 }
 app.use('/graphql', graphqlHTTP({
