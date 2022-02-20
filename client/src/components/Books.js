@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useQuery} from "@apollo/client";
-import {GET_ALL_BOOKS, GET_ONE_BOOK} from "../query/book";
+
+import {GET_ALL_BOOKS} from "../query/book";
 import './books.css'
 
 function Books() {
@@ -15,58 +16,25 @@ function Books() {
             shouldReset: shouldResetValue
         }
     })
-    const {data:bookData, loading:bookLoading, refetch:bookRefetch} = useQuery(GET_ONE_BOOK, {
-        variables:{
-            currentId: bookRequestedID
-        }
-    })
 
     useEffect( () => {
-        if(!booksLoading && !shouldResetValue){
-            console.log('data from server: ', booksData.getAllBooks)
-            setBooks(booksData.getAllBooks)
-        }
+        if(!booksLoading && !shouldResetValue) setBooks(booksData.getAllBooks)
     }, [booksData])
 
-    const getAllBooks = async () => {
-        console.log('refetching!')
+    const refreshAllBooks = async () => {
         await booksRefetch()
         setShouldResetValue(false)
-        console.log(books)
     }
     const getMoreContent = async () =>{
         await booksFetchMore({variables:{offset:books.length}})
     }
 
-    // const addUser = (e) => {
-    //   e.preventDefault()
-    //   newUser({
-    //     variables: {
-    //       input: {
-    //         name, email, password
-    //       }
-    //     }
-    //   }).then(({data}) => {
-    //     console.log(data)
-    //     setName('')
-    //     setEmail('')
-    //     setPassword('')
-    //   })
-    // }
-    // const getAll = e => {
-    //   e.preventDefault()
-    //   refetch()
-    // }
-    if(booksLoading) {
-        return <h1>Loading books...</h1>
-    }
-
     const inputHandler = (e) => {
         setLimit(Number(e.target.value))
-        console.log('was entered: ', e.target.value)
     }
-    const approve = () => {
-        setShouldResetValue(true)
+
+    if(booksLoading) {
+        return <h1>Loading books...</h1>
     }
     return (
         <div>
@@ -76,9 +44,9 @@ function Books() {
             <div className="countItemPerPageByUser">
             <p>how much books per page should be (current value: {limit} books per page): </p>
             <p>1. press approve button, 2. enter you're number, 3. press refresh button</p>
-            <button onClick={() => approve()}>approve</button>
+            <button onClick={() => setShouldResetValue(true)}>approve</button>
             <input type="number" onInput={(e) => inputHandler(e)}/>
-            <button title="refresh list and get new books" onClick={(e) => getAllBooks(e)} className="btn btn-success">refresh</button>
+            <button title="refresh list and get new books" onClick={(e) => refreshAllBooks(e)} className="btn btn-success">refresh</button>
             </div>
 
             <section className="section">
