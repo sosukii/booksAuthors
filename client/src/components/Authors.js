@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {useQuery} from "@apollo/client";
-import {GET_ALL_AUTHORS, GET_ONE_AUTHOR} from "../query/author";
+
+import {GET_ALL_AUTHORS} from "../query/author";
 import './authors.css'
+
 function Authors() {
-    const [authorRequestedID, setAuthorRequestedID] = useState(null)
     const [authors, setAuthors] = useState([])
     const [limit, setLimit] = useState(2)
     const [shouldResetValue, setShouldResetValue] = useState(false)
@@ -14,58 +15,26 @@ function Authors() {
             shouldReset: shouldResetValue
         }
     })
-    const {data:authorData, loading:authorLoading, refetch:authorRefetch} = useQuery(GET_ONE_AUTHOR, {
-        variables:{
-            currentId: authorRequestedID
-        }
-    })
 
     useEffect( () => {
-        if(!loading && !shouldResetValue){
-            console.log('data from server: ', authorsData.getAllAuthors)
-            setAuthors(authorsData.getAllAuthors)
-        }
+        if(!loading && !shouldResetValue) setAuthors(authorsData.getAllAuthors)
     }, [authorsData])
 
-    const getAllAuthors = async() => {
+    const refreshAllAuthors = async() => {
         await refetch()
         setShouldResetValue(false)
-        console.log(authors)
     }
     const getMoreContent = async () =>{
         await fetchMore({variables:{offset:authors.length}})
     }
 
-    // const addUser = (e) => {
-    //   e.preventDefault()
-    //   newUser({
-    //     variables: {
-    //       input: {
-    //         name, email, password
-    //       }
-    //     }
-    //   }).then(({data}) => {
-    //     console.log(data)
-    //     setName('')
-    //     setEmail('')
-    //     setPassword('')
-    //   })
-    // }
-    // const getAll = e => {
-    //   e.preventDefault()
-    //   refetch()
-    // }
+    const inputHandler = (e) => {
+        setLimit(Number(e.target.value))
+    }
+
     if(loading) {
         return <h1>Loading authors...</h1>
     }
-    const inputHandler = (e) => {
-        setLimit(Number(e.target.value))
-        console.log('was entered: ', e.target.value)
-    }
-    const approve = () => {
-        setShouldResetValue(true)
-    }
-
     return (
         <div>
             <h1 className="main-title">Authors catalog</h1>
@@ -74,9 +43,9 @@ function Authors() {
             <div className="countItemPerPageByUser">
                 <p>how much authors per page should be (current value: {limit} authors per page): </p>
                 <p>1. press approve button, 2. enter you're number, 3. press refresh button</p>
-                <button onClick={() => approve()}>approve</button>
+                <button onClick={() => setShouldResetValue(true)}>approve</button>
                 <input type="number" onInput={(e) => inputHandler(e)}/>
-                <button title="refresh list" onClick={(e) => getAllAuthors(e)} className="btn btn-success">refresh</button>
+                <button title="refresh list" onClick={(e) => refreshAllAuthors(e)} className="btn btn-success">refresh</button>
             </div>
 
             <section className="section">

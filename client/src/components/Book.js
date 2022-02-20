@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {useQuery} from "@apollo/client";
+
 import {GET_ONE_BOOK} from "../query/book";
 import './book.css'
 
 function Book() {
-    const [bookRequestedID, setBookRequestedID] = useState('')
     const [book, setBook] = useState('')
+    const [bookRequestedID, setBookRequestedID] = useState('')
     const [messageAttention, setMessageAttention] = useState('')
 
     const {data:bookData} = useQuery(GET_ONE_BOOK, {
@@ -18,28 +19,7 @@ function Book() {
         bookRequestedID.length < 1
             ? setMessageAttention('you should write correct id')
             : setBook(bookData.getBook)
-        console.log('book from server: ', bookData.getBook)
     }
-
-    // const addUser = (e) => {
-    //   e.preventDefault()
-    //   newUser({
-    //     variables: {
-    //       input: {
-    //         name, email, password
-    //       }
-    //     }
-    //   }).then(({data}) => {
-    //     console.log(data)
-    //     setName('')
-    //     setEmail('')
-    //     setPassword('')
-    //   })
-    // }
-    // const getAll = e => {
-    //   e.preventDefault()
-    //   refetch()
-    // }
 
     const inputHandler = (e) => {
         if((e.target.value).length > 0) setMessageAttention('')

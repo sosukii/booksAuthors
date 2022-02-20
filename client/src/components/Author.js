@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import {useQuery} from "@apollo/client";
+
 import {GET_ONE_AUTHOR} from "../query/author";
 import './author.css'
 
 function Author() {
-    const [authorRequestedID, setAuthorRequestedID] = useState('')
     const [author, setAuthor] = useState([])
+    const [authorRequestedID, setAuthorRequestedID] = useState('')
     const [messageAttention, setMessageAttention] = useState('')
 
     const {data:authorData} = useQuery(GET_ONE_AUTHOR, {
@@ -14,39 +15,11 @@ function Author() {
         }
     })
 
-    // useEffect( () => {
-    //     if(!loading && !shouldResetValue){
-    //         console.log('data from server: ', authorsData.getAllAuthors)
-    //         setAuthors(authorsData.getAllAuthors)
-    //     }
-    // }, [authorsData])
-
-    // const addUser = (e) => {
-    //   e.preventDefault()
-    //   newUser({
-    //     variables: {
-    //       input: {
-    //         name, email, password
-    //       }
-    //     }
-    //   }).then(({data}) => {
-    //     console.log(data)
-    //     setName('')
-    //     setEmail('')
-    //     setPassword('')
-    //   })
-    // }
-    // const getAll = e => {
-    //   e.preventDefault()
-    //   refetch()
-    // }
-
     const findAuthor = () => {
         authorRequestedID.length < 1
             ? setMessageAttention('you should write correct id')
             : setAuthor(authorData.getAuthor)
     }
-
     const inputHandler = (e) => {
         if((e.target.value).length > 0) setMessageAttention('')
         setAuthorRequestedID(e.target.value)
