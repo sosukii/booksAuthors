@@ -8,7 +8,7 @@ const PouchDB = require('pouchdb')
 PouchDB.plugin(require('pouchdb-find'))
 
 //const dbPOUCH = new PouchDB(`http://${c.get('couchLogIn')}:${c.get('couchPassword')}@localhost:5984/db_proj`)
-const dbPOUCHtest = new PouchDB(`http://${c.get('couchLogIn')}:${c.get('couchPassword')}@localhost:5984/test`)
+const dbPOUCHtest = new PouchDB(`http://sosukii:password@localhost:5984/test`)
 
 const app = express()
 app.use(cors())
@@ -96,7 +96,7 @@ app.use('/graphql', graphqlHTTP({
 
 async function startServer(){
     try{
-        app.listen(c.get('port'),()=>console.log('server started', c.get('port')))
+        app.listen(5000,() => console.log('server started 5000'))
     }catch(e){
         console.log(e)
     }
