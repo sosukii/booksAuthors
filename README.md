@@ -18,7 +18,7 @@ What you can:
 ![JavaScript](https://img.shields.io/badge/-JavaScript-000?style=flat&logo=JavaScript)
 
 
-### To run this app you need:
+### To run this app you need: 
 1. **install dependencies** for folder: \
    + being in booksAuthors folder run `npm depends`
    
