@@ -1,17 +1,4 @@
-const express = require('express')
-const {graphqlHTTP} = require('express-graphql')
-const cors = require('cors')
-const schema = require('./schema')
-const c = require('config')
-
-const PouchDB = require('pouchdb')
-PouchDB.plugin(require('pouchdb-find'))
-
-//const dbPOUCH = new PouchDB(`http://${c.get('couchLogIn')}:${c.get('couchPassword')}@localhost:5984/db_proj`)
-const dbPOUCHtest = new PouchDB(`http://sosukii:password@localhost:5984/test`)
-
-const app = express()
-app.use(cors())
+const db = require('../db/db_instance')
 
 let optionsBooks = {
     selector: {type: 'Book'},
@@ -28,13 +15,13 @@ const root = {
     getAllAuthors: async ({limitValue, shouldReset}) => {
         if(limitValue !== undefined) optionsAuthor.limit = limitValue
         if(shouldReset) optionsAuthor.skip = 0
-        const authors = await dbPOUCHtest.find(optionsAuthor)
+        const authors = await db.find(optionsAuthor)
 
         const resultAuthors = []
         for(let author of authors.docs){
             const booksOfCurrentAuthor = []
             for (const bookID of author.books) {
-                const currentBook = await dbPOUCHtest.find({selector:{type:'Book', _id:bookID}})
+                const currentBook = await db.find({selector:{type:'Book', _id:bookID}})
                 booksOfCurrentAuthor.push(currentBook.docs[0])
             }
             author.books = [...booksOfCurrentAuthor]
@@ -56,10 +43,10 @@ const root = {
         if(limitValue !== undefined) optionsBooks.limit = limitValue
         if(shouldReset) optionsBooks.skip = 0
 
-        const books = await dbPOUCHtest.find(optionsBooks)
+        const books = await db.find(optionsBooks)
         const resultBooks = []
         for(let book of books.docs) {
-            book.author = (await dbPOUCHtest.find({selector: {_id: book.author}})).docs[0]
+            book.author = (await db.find({selector: {_id: book.author}})).docs[0]
             resultBooks.push(book)
         }
 
@@ -71,16 +58,16 @@ const root = {
         return resultBooks
     },
     getBook: async( {id} ) => {
-        const result = await dbPOUCHtest.find({selector: {type: 'Book', _id:id}})
-        result.docs[0].author = (await dbPOUCHtest.find({selector: {_id: result.docs[0].author}})).docs[0]
+        const result = await db.find({selector: {type: 'Book', _id:id}})
+        result.docs[0].author = (await db.find({selector: {_id: result.docs[0].author}})).docs[0]
         return result.docs[0]
     },
     getAuthor: async( {id} ) => {
-        const result = await dbPOUCHtest.find({selector: {type: 'Author', _id:id}})
+        const result = await db.find({selector: {type: 'Author', _id:id}})
 
         const booksOfCurrentAuthor = []
         for (const bookID of result.docs[0].books) {
-            const currentBook = await dbPOUCHtest.find({selector:{type:'Book', _id:bookID}})
+            const currentBook = await db.find({selector:{type:'Book', _id:bookID}})
             booksOfCurrentAuthor.push(currentBook.docs[0])
         }
         result.docs[0].books = [...booksOfCurrentAuthor]
@@ -88,17 +75,5 @@ const root = {
         return result.docs[0]
     }
 }
-app.use('/graphql', graphqlHTTP({
-    graphiql:true,
-    schema,
-    rootValue:root
-}))
 
-async function startServer(){
-    try{
-        app.listen(5000,() => console.log('server started 5000'))
-    }catch(e){
-        console.log(e)
-    }
-}
-startServer()
+module.exports = root
