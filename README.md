@@ -18,31 +18,34 @@ What you can:
 ![JavaScript](https://img.shields.io/badge/-JavaScript-000?style=flat&logo=JavaScript)
 
 
+### To run this app you need: 
+1. **install dependencies** for folder: \
+   + being in booksAuthors folder run `npm depends`
+   
+2. **create credentials** for CouchDB 
+   + being in booksAuthors folder run `npm run auth` 
+   + write you're credentials data (login, password for CouchDB) at console
+3. **run app**
+   + being in booksAuthors folder run `npm run dev`
+
+
 # Getting Started
-## How can i run this app?
-**Create folder for this app** (for example: myFolder)
+##first step below: 
+1. Create folder for this app (for example: *myFolder*)
 
-**Open terminal:**\
-for windows: win+R\
-for mac: ⌘Cmd + N
+2. Open terminal: \
+![](https://img.shields.io/badge/--ffffff?style=flat&logo=windows&logoColor=33ccff) for windows: win + R\
+![](https://img.shields.io/badge/--ffffff?style=flat&logo=apple&logoColor=000) for mac: ⌘Cmd + N
 
-**Go to you're folder at the terminal:**\
-`cd myFolder`
-
-**Copied app into you're folder:**\
+3. Go to you're folder at the terminal: \
+`cd myFolder` 
+####
+4. **Copied app into you're folder:** \
 `myFolder: git clone https://github.com/sosukii/booksAuthors.git`
 
-**Go to app folder:**\
+5. Go to app folder: \
 `cd booksAuthors`
 
-###**Install dependencies** for folders:
-(for /booksAuthors, booksAuthors/server, booksAuthors/client)
 
-`myFolder/booksAuthors: npm install`\
-`myFolder/booksAuthors/client: npm install`\
-`myFolder/booksAuthors/server: npm install`
-
-### Now you can run this app:
-### `myFolder/booksAuthors: npm run dev`
 
 

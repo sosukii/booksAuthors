@@ -9,6 +9,8 @@
     "createDBInstance": "node db/db_instance.js"
   },
   "dependencies": {
+    "cd": "^0.3.3",
+    "client": "^0.0.1",
     "express": "^4.17.2",
     "express-graphql": "^0.12.0",
     "graphql": "^16.3.0",
