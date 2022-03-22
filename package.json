@@ -6,6 +6,9 @@
   "scripts": {
     "server": "npm run server --prefix server",
     "client": "npm run start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\" "
+    "dev": "concurrently \"npm run server\" \"npm run client\" ",
+
+    "depends":  "npm install && cd server && npm install && cd.. & cd client && npm install",
+    "auth": "npm run createCredentials --prefix server"
   }
 }
