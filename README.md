@@ -19,7 +19,7 @@ What you can:
 
 
 ### To run this app you need: 
-1. **install dependencies** for folder: \
+1. **install dependencies** for folder: 
    + being in booksAuthors folder run `npm depends`
    
 2. **create credentials** for CouchDB 
@@ -30,7 +30,7 @@ What you can:
 
 
 # Getting Started
-##first step below: 
+### first step below: 
 1. Create folder for this app (for example: *myFolder*)
 
 2. Open terminal: \
