@@ -20,7 +20,7 @@ What you can:
 
 ### To run this app you need: 
 1. **install dependencies** for folder: 
-   + being in booksAuthors folder run `npm depends`
+   + being in booksAuthors folder run `npm run depends`
    
 2. **create credentials** for CouchDB 
    + being in booksAuthors folder run `npm run auth` 
